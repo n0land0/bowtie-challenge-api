@@ -4,6 +4,8 @@ import router from './routes';
 
 const app = express();
 app.set('port', process.env.PORT || 3001);
+app.use(express.json());
+app.use(express.urlencoded());
 app.use(router);
 
 app.listen(app.get('port'), () =>
