@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./app.ts",
+    "start": "nodemon dist/app.js",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*\"",
     "prepare": "husky install"
