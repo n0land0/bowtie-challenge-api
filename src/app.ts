@@ -1,5 +1,11 @@
 import express from 'express';
 
-const app = express();
+import router from './routes';
 
-app.listen(3001);
+const app = express();
+app.set('port', process.env.PORT || 3001);
+app.use(router);
+
+app.listen(app.get('port'), () =>
+  console.log(`App is running on ${app.get('port')}`)
+);
