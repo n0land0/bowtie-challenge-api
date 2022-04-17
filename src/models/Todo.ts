@@ -51,6 +51,15 @@ class Todo implements ITodo {
     return fs.writeFile(dataTodosFile, JSON.stringify(todosData));
   }
 
+  static async delete(id: number) {
+    const todosData = await Todo.fetchAll();
+    const todoIndex = todosData.findIndex((todo) => todo.id === id);
+
+    todosData.splice(todoIndex, 1);
+
+    return fs.writeFile(dataTodosFile, JSON.stringify(todosData));
+  }
+
   static async fetchAllByProjectId(projectId: number): Promise<ITodo[]> {
     return fs
       .readFile(dataTodosFile)
