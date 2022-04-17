@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProject = exports.createNewProject = exports.getAllProjects = void 0;
+exports.deleteProject = exports.updateProject = exports.createNewProject = exports.getAllProjects = void 0;
 const Project_1 = __importDefault(require("../models/Project"));
 const getAllProjects = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -40,7 +40,7 @@ const updateProject = (request, response, next) => __awaiter(void 0, void 0, voi
     try {
         const { projectId } = request.params;
         const { projectName, todos } = request.body;
-        Project_1.default.save(+projectId, projectName, todos);
+        Project_1.default.update(+projectId, projectName, todos);
         response.send(`Project ${projectId} updated!`);
     }
     catch (error) {
@@ -48,3 +48,14 @@ const updateProject = (request, response, next) => __awaiter(void 0, void 0, voi
     }
 });
 exports.updateProject = updateProject;
+const deleteProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { projectId } = request.params;
+        Project_1.default.delete(+projectId);
+        response.send(`Project ${projectId} has been deleted.`);
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.deleteProject = deleteProject;
