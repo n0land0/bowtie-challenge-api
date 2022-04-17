@@ -3,8 +3,6 @@ import { promises as fs } from 'fs';
 import { dataProjectsFile } from '../util/path';
 import { Project as IProject, Todo } from './interfaces';
 
-// import path from 'path';
-
 class Project implements IProject {
   projectName: string;
   id?: number | undefined;
@@ -17,16 +15,14 @@ class Project implements IProject {
   async create() {
     const projectData = await Project.fetchAll();
 
-    let newId;
-    if (projectData) {
+    let newId = 1;
+    if (projectData.length) {
       const { id } = projectData[projectData.length - 1];
       newId = id + 1;
-
-      this.id = newId;
-      this.todos = [];
-
-      projectData[projectData.length] = this;
     }
+    this.id = newId;
+    this.todos = [];
+    projectData[projectData.length] = this;
 
     return fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
   }
@@ -58,7 +54,7 @@ class Project implements IProject {
     return fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
   }
 
-  static fetchAll(): Promise<IProject[]> {
+  static async fetchAll(): Promise<IProject[]> {
     return fs
       .readFile(dataProjectsFile)
       .then((data) => JSON.parse(data.toString()));

@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path_1 = require("../util/path");
-// import path from 'path';
 class Project {
     constructor(projectName) {
         this.projectName = projectName;
@@ -19,14 +18,14 @@ class Project {
     create() {
         return __awaiter(this, void 0, void 0, function* () {
             const projectData = yield Project.fetchAll();
-            let newId;
-            if (projectData) {
+            let newId = 1;
+            if (projectData.length) {
                 const { id } = projectData[projectData.length - 1];
                 newId = id + 1;
-                this.id = newId;
-                this.todos = [];
-                projectData[projectData.length] = this;
             }
+            this.id = newId;
+            this.todos = [];
+            projectData[projectData.length] = this;
             return fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
         });
     }
@@ -51,9 +50,11 @@ class Project {
         });
     }
     static fetchAll() {
-        return fs_1.promises
-            .readFile(path_1.dataProjectsFile)
-            .then((data) => JSON.parse(data.toString()));
+        return __awaiter(this, void 0, void 0, function* () {
+            return fs_1.promises
+                .readFile(path_1.dataProjectsFile)
+                .then((data) => JSON.parse(data.toString()));
+        });
     }
 }
 exports.default = Project;

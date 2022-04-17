@@ -14,3 +14,11 @@ export const dataProjectsFile = path.join(
   'data',
   'projects.json'
 );
+
+export const dataTodosFile = path.join(
+  rootDir,
+  '..',
+  'src',
+  'data',
+  'todos.json'
+);
