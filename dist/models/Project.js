@@ -19,9 +19,6 @@ class Project {
     create() {
         return __awaiter(this, void 0, void 0, function* () {
             const projectData = yield Project.fetchAll();
-            // const projectData = await fs
-            // .readFile(dataProjectsFile)
-            // .then((data) => JSON.parse(data.toString()));
             const newId = projectData.length;
             this.id = newId;
             this.todos = [];
