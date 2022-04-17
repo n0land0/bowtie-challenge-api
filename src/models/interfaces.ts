@@ -1,7 +1,7 @@
 export interface Project {
   id?: number;
   projectName: string;
-  todos: Todo[];
+  todos?: Todo[];
 }
 
 export interface Todo {
