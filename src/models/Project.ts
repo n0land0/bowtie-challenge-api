@@ -16,9 +16,6 @@ class Project implements IProject {
 
   async create() {
     const projectData = await Project.fetchAll();
-    // const projectData = await fs
-    // .readFile(dataProjectsFile)
-    // .then((data) => JSON.parse(data.toString()));
     const newId = projectData.length;
     this.id = newId;
     this.todos = [];
