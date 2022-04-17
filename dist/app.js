@@ -12,5 +12,4 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded());
 app.use('/api/v1', routes_1.default);
-// Project.fetchAll().then((response) => console.log(response));
 app.listen(app.get('port'), () => console.log(`App is running on ${app.get('port')}`));

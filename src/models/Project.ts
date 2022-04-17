@@ -1,4 +1,3 @@
-import { deepStrictEqual } from 'assert';
 import { promises as fs } from 'fs';
 
 import { dataProjectsFile } from '../util/path';
@@ -7,17 +6,27 @@ import { Project as IProject, Todo } from './interfaces';
 // import path from 'path';
 
 class Project implements IProject {
-  id?: number | undefined;
   projectName: string;
-  todos: Todo[];
+  id?: number | undefined;
+  todos?: Todo[];
 
-  constructor(id: number | undefined, projectName: string, todos: Todo[]) {
-    this.id = id;
+  constructor(projectName: string) {
     this.projectName = projectName;
-    this.todos = todos;
   }
 
-  static fetchAll() {
+  async save() {
+    // const projectData = await Project.fetchAll();
+    const projectData = await fs
+      .readFile(dataProjectsFile)
+      .then((data) => JSON.parse(data.toString()));
+    const newId = projectData.length;
+    this.id = newId;
+    this.todos = [];
+    projectData[newId] = this;
+    return await fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
+  }
+
+  static fetchAll(): Promise<IProject[]> {
     return fs
       .readFile(dataProjectsFile)
       .then((data) => JSON.parse(data.toString()));
