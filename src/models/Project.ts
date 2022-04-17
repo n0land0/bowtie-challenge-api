@@ -1,5 +1,5 @@
 import { deepStrictEqual } from 'assert';
-import fs from 'fs';
+import { promises as fs } from 'fs';
 
 import { dataProjectsFile } from '../util/path';
 import { Project as IProject, Todo } from './interfaces';
@@ -18,9 +18,9 @@ class Project implements IProject {
   }
 
   static fetchAll() {
-    fs.readFile(dataProjectsFile, (error, data) => {
-      return JSON.parse(data.toString());
-    });
+    return fs
+      .readFile(dataProjectsFile)
+      .then((data) => JSON.parse(data.toString()));
   }
 }
 
