@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createNewTodo = exports.getAllTodosByProject = void 0;
+exports.updateTodo = exports.createNewTodo = exports.getAllTodosByProject = void 0;
 const Todo_1 = __importDefault(require("../models/Todo"));
 const getAllTodosByProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -37,3 +37,15 @@ const createNewTodo = (request, response, next) => __awaiter(void 0, void 0, voi
     }
 });
 exports.createNewTodo = createNewTodo;
+const updateTodo = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { projectId, todoId } = request.params;
+        const { description, completed } = request.body;
+        Todo_1.default.update(+todoId, +projectId, description, completed);
+        response.send(`Todo ${todoId} in project ${projectId} updated!`);
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.updateTodo = updateTodo;

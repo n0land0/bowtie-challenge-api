@@ -6,7 +6,7 @@ export interface Project {
 
 export interface Todo {
   id?: number;
-  completed: boolean;
-  description: string;
   projectId?: number;
+  description: string;
+  completed: boolean;
 }

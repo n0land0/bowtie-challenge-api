@@ -34,3 +34,20 @@ export const createNewTodo = async (
     console.log(error);
   }
 };
+
+export const updateTodo = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const { projectId, todoId } = request.params;
+    const { description, completed } = request.body;
+
+    Todo.update(+todoId, +projectId, description, completed);
+
+    response.send(`Todo ${todoId} in project ${projectId} updated!`);
+  } catch (error) {
+    console.log(error);
+  }
+};
