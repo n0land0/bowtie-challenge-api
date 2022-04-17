@@ -1,9 +1,10 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Router } from 'express';
 
-import { getAllProjects } from '../controllers';
+import { createNewProject, getAllProjects } from '../controllers';
 
 const router = Router();
 
 router.get('/projects', getAllProjects);
+router.post('/projects', createNewProject);
 
 export default router;
