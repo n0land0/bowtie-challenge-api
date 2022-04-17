@@ -6,7 +6,6 @@ import { Project as IProject, Todo } from './interfaces';
 class Project implements IProject {
   projectName: string;
   id?: number | undefined;
-  todos?: Todo[];
 
   constructor(projectName: string) {
     this.projectName = projectName;
@@ -21,17 +20,12 @@ class Project implements IProject {
       newId = id + 1;
     }
     this.id = newId;
-    this.todos = [];
     projectData[projectData.length] = this;
 
     return fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
   }
 
-  static async update(
-    id: number,
-    updatedProjectName: string,
-    updatedTodos: Todo[]
-  ) {
+  static async update(id: number, updatedProjectName: string) {
     const projectData = await Project.fetchAll();
 
     const projectIndex = projectData.findIndex((project) => project.id === id);
@@ -39,7 +33,6 @@ class Project implements IProject {
     projectData[projectIndex] = {
       id,
       projectName: updatedProjectName,
-      todos: updatedTodos,
     };
 
     return fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
