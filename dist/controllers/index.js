@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createNewProject = exports.getAllProjects = void 0;
+exports.updateProject = exports.createNewProject = exports.getAllProjects = void 0;
 const Project_1 = __importDefault(require("../models/Project"));
 const getAllProjects = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -26,15 +26,25 @@ const getAllProjects = (request, response, next) => __awaiter(void 0, void 0, vo
 exports.getAllProjects = getAllProjects;
 const createNewProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(request.body);
         const { projectName } = request.body;
         const newProject = new Project_1.default(projectName);
-        newProject.save();
-        console.log(Project_1.default.fetchAll());
-        response.send(`New project ${projectName} saved!`);
+        newProject.create();
+        response.send(`New project ${projectName} created!`);
     }
     catch (error) {
         console.log(error);
     }
 });
 exports.createNewProject = createNewProject;
+const updateProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { projectId } = request.params;
+        const { projectName, todos } = request.body;
+        Project_1.default.save(+projectId, projectName, todos);
+        response.send(`Project ${projectId} updated!`);
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.updateProject = updateProject;

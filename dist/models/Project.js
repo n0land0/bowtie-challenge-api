@@ -16,16 +16,28 @@ class Project {
     constructor(projectName) {
         this.projectName = projectName;
     }
-    save() {
+    create() {
         return __awaiter(this, void 0, void 0, function* () {
-            // const projectData = await Project.fetchAll();
-            const projectData = yield fs_1.promises
-                .readFile(path_1.dataProjectsFile)
-                .then((data) => JSON.parse(data.toString()));
+            const projectData = yield Project.fetchAll();
+            // const projectData = await fs
+            // .readFile(dataProjectsFile)
+            // .then((data) => JSON.parse(data.toString()));
             const newId = projectData.length;
             this.id = newId;
             this.todos = [];
             projectData[newId] = this;
+            return yield fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
+        });
+    }
+    static save(id, updatedProjectName, updatedTodos) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const projectData = yield Project.fetchAll();
+            const projectIndex = projectData.findIndex((project) => project.id === id);
+            projectData[projectIndex] = {
+                id,
+                projectName: updatedProjectName,
+                todos: updatedTodos,
+            };
             return yield fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
         });
     }
