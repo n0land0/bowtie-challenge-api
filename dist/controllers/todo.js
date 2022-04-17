@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTodo = exports.createNewTodo = exports.getAllTodosByProject = void 0;
+exports.deleteTodo = exports.updateTodo = exports.createNewTodo = exports.getAllTodosByProject = void 0;
 const Todo_1 = __importDefault(require("../models/Todo"));
 const getAllTodosByProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -49,3 +49,14 @@ const updateTodo = (request, response, next) => __awaiter(void 0, void 0, void 0
     }
 });
 exports.updateTodo = updateTodo;
+const deleteTodo = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { todoId, projectId } = request.params;
+        Todo_1.default.delete(+todoId);
+        response.send(`Todo ${todoId} in project ${projectId} has been deleted.`);
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.deleteTodo = deleteTodo;

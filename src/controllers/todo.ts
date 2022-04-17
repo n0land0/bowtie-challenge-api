@@ -51,3 +51,19 @@ export const updateTodo = async (
     console.log(error);
   }
 };
+
+export const deleteTodo = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const { todoId, projectId } = request.params;
+
+    Todo.delete(+todoId);
+
+    response.send(`Todo ${todoId} in project ${projectId} has been deleted.`);
+  } catch (error) {
+    console.log(error);
+  }
+};

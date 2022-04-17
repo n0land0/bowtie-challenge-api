@@ -44,6 +44,14 @@ class Todo {
             return fs_1.promises.writeFile(path_1.dataTodosFile, JSON.stringify(todosData));
         });
     }
+    static delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const todosData = yield Todo.fetchAll();
+            const todoIndex = todosData.findIndex((todo) => todo.id === id);
+            todosData.splice(todoIndex, 1);
+            return fs_1.promises.writeFile(path_1.dataTodosFile, JSON.stringify(todosData));
+        });
+    }
     static fetchAllByProjectId(projectId) {
         return __awaiter(this, void 0, void 0, function* () {
             return fs_1.promises

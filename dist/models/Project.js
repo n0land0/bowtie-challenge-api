@@ -24,19 +24,17 @@ class Project {
                 newId = id + 1;
             }
             this.id = newId;
-            this.todos = [];
             projectData[projectData.length] = this;
             return fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
         });
     }
-    static update(id, updatedProjectName, updatedTodos) {
+    static update(id, updatedProjectName) {
         return __awaiter(this, void 0, void 0, function* () {
             const projectData = yield Project.fetchAll();
             const projectIndex = projectData.findIndex((project) => project.id === id);
             projectData[projectIndex] = {
                 id,
                 projectName: updatedProjectName,
-                todos: updatedTodos,
             };
             return fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
         });
