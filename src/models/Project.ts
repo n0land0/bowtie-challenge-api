@@ -16,14 +16,22 @@ class Project implements IProject {
 
   async create() {
     const projectData = await Project.fetchAll();
-    const newId = projectData.length;
-    this.id = newId;
-    this.todos = [];
-    projectData[newId] = this;
-    return await fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
+
+    let newId;
+    if (projectData) {
+      const { id } = projectData[projectData.length - 1];
+      newId = id + 1;
+
+      this.id = newId;
+      this.todos = [];
+
+      projectData[projectData.length] = this;
+    }
+
+    return fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
   }
 
-  static async save(
+  static async update(
     id: number,
     updatedProjectName: string,
     updatedTodos: Todo[]
@@ -38,7 +46,16 @@ class Project implements IProject {
       todos: updatedTodos,
     };
 
-    return await fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
+    return fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
+  }
+
+  static async delete(id: number) {
+    const projectData = await Project.fetchAll();
+    const projectIndex = projectData.findIndex((project) => project.id === id);
+
+    projectData.splice(projectIndex, 1);
+
+    return fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
   }
 
   static fetchAll(): Promise<IProject[]> {

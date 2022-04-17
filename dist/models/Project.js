@@ -19,14 +19,18 @@ class Project {
     create() {
         return __awaiter(this, void 0, void 0, function* () {
             const projectData = yield Project.fetchAll();
-            const newId = projectData.length;
-            this.id = newId;
-            this.todos = [];
-            projectData[newId] = this;
-            return yield fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
+            let newId;
+            if (projectData) {
+                const { id } = projectData[projectData.length - 1];
+                newId = id + 1;
+                this.id = newId;
+                this.todos = [];
+                projectData[projectData.length] = this;
+            }
+            return fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
         });
     }
-    static save(id, updatedProjectName, updatedTodos) {
+    static update(id, updatedProjectName, updatedTodos) {
         return __awaiter(this, void 0, void 0, function* () {
             const projectData = yield Project.fetchAll();
             const projectIndex = projectData.findIndex((project) => project.id === id);
@@ -35,7 +39,15 @@ class Project {
                 projectName: updatedProjectName,
                 todos: updatedTodos,
             };
-            return yield fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
+            return fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
+        });
+    }
+    static delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const projectData = yield Project.fetchAll();
+            const projectIndex = projectData.findIndex((project) => project.id === id);
+            projectData.splice(projectIndex, 1);
+            return fs_1.promises.writeFile(path_1.dataProjectsFile, JSON.stringify(projectData));
         });
     }
     static fetchAll() {

@@ -41,9 +41,25 @@ export const updateProject = async (
     const { projectId } = request.params;
     const { projectName, todos } = request.body;
 
-    Project.save(+projectId, projectName, todos);
+    Project.update(+projectId, projectName, todos);
 
     response.send(`Project ${projectId} updated!`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteProject = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const { projectId } = request.params;
+
+    Project.delete(+projectId);
+
+    response.send(`Project ${projectId} has been deleted.`);
   } catch (error) {
     console.log(error);
   }
