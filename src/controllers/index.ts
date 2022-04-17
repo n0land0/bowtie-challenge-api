@@ -21,12 +21,29 @@ export const createNewProject = async (
   next: NextFunction
 ) => {
   try {
-    console.log(request.body);
     const { projectName } = request.body;
     const newProject = new Project(projectName);
-    newProject.save();
-    console.log(Project.fetchAll());
-    response.send(`New project ${projectName} saved!`);
+
+    newProject.create();
+
+    response.send(`New project ${projectName} created!`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateProject = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const { projectId } = request.params;
+    const { projectName, todos } = request.body;
+
+    Project.save(+projectId, projectName, todos);
+
+    response.send(`Project ${projectId} updated!`);
   } catch (error) {
     console.log(error);
   }

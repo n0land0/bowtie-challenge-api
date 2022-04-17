@@ -14,15 +14,33 @@ class Project implements IProject {
     this.projectName = projectName;
   }
 
-  async save() {
-    // const projectData = await Project.fetchAll();
-    const projectData = await fs
-      .readFile(dataProjectsFile)
-      .then((data) => JSON.parse(data.toString()));
+  async create() {
+    const projectData = await Project.fetchAll();
+    // const projectData = await fs
+    // .readFile(dataProjectsFile)
+    // .then((data) => JSON.parse(data.toString()));
     const newId = projectData.length;
     this.id = newId;
     this.todos = [];
     projectData[newId] = this;
+    return await fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
+  }
+
+  static async save(
+    id: number,
+    updatedProjectName: string,
+    updatedTodos: Todo[]
+  ) {
+    const projectData = await Project.fetchAll();
+
+    const projectIndex = projectData.findIndex((project) => project.id === id);
+
+    projectData[projectIndex] = {
+      id,
+      projectName: updatedProjectName,
+      todos: updatedTodos,
+    };
+
     return await fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
   }
 
