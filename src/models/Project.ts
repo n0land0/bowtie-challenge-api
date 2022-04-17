@@ -16,10 +16,18 @@ class Project implements IProject {
 
   async create() {
     const projectData = await Project.fetchAll();
-    const newId = projectData.length;
-    this.id = newId;
-    this.todos = [];
-    projectData[newId] = this;
+
+    let newId;
+    if (projectData) {
+      const { id } = projectData[projectData.length - 1];
+      newId = id + 1;
+
+      this.id = newId;
+      this.todos = [];
+
+      projectData[projectData.length] = this;
+    }
+
     return fs.writeFile(dataProjectsFile, JSON.stringify(projectData));
   }
 
