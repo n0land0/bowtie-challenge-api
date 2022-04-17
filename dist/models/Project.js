@@ -1,10 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __importDefault(require("fs"));
 const path_1 = require("../util/path");
+const fs_1 = require("fs");
 // import path from 'path';
 class Project {
     constructor(id, projectName, todos) {
@@ -13,9 +10,7 @@ class Project {
         this.todos = todos;
     }
     static fetchAll() {
-        fs_1.default.readFile(path_1.dataProjectsFile, (error, data) => {
-            return JSON.parse(data.toString());
-        });
+        return fs_1.promises.readFile(path_1.dataProjectsFile).then((data) => JSON.parse(data.toString()));
     }
 }
 exports.default = Project;
