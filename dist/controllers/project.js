@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProject = exports.updateProject = exports.createNewProject = exports.getAllProjects = void 0;
 const Project_1 = __importDefault(require("../models/Project"));
+const Todo_1 = __importDefault(require("../models/Todo"));
 const getAllProjects = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const projectsData = yield Project_1.default.fetchAll();
@@ -51,6 +52,8 @@ exports.updateProject = updateProject;
 const deleteProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { projectId } = request.params;
+        // await deleteAllTodosInProject(+projectId);
+        yield Todo_1.default.deleteAllByProjectId(+projectId);
         Project_1.default.delete(+projectId);
         response.json(`Project ${projectId} has been deleted.`);
     }
