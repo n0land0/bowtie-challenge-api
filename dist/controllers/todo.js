@@ -30,7 +30,7 @@ const createNewTodo = (request, response, next) => __awaiter(void 0, void 0, voi
         const { projectId, todoDescription } = request.body;
         const newTodo = new Todo_1.default(todoDescription);
         newTodo.create(projectId);
-        response.send(`New todo ${todoDescription} created in project ${projectId}!`);
+        response.json(`New todo ${todoDescription} created in project ${projectId}!`);
     }
     catch (error) {
         console.log(error);
@@ -42,7 +42,7 @@ const updateTodo = (request, response, next) => __awaiter(void 0, void 0, void 0
         const { projectId, todoId } = request.params;
         const { description, completed } = request.body;
         Todo_1.default.update(+todoId, +projectId, description, completed);
-        response.send(`Todo ${todoId} in project ${projectId} updated!`);
+        response.json(`Todo ${todoId} in project ${projectId} updated!`);
     }
     catch (error) {
         console.log(error);
@@ -53,7 +53,7 @@ const deleteTodo = (request, response, next) => __awaiter(void 0, void 0, void 0
     try {
         const { todoId, projectId } = request.params;
         Todo_1.default.delete(+todoId);
-        response.send(`Todo ${todoId} in project ${projectId} has been deleted.`);
+        response.json(`Todo ${todoId} in project ${projectId} has been deleted.`);
     }
     catch (error) {
         console.log(error);

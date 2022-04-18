@@ -29,7 +29,7 @@ const createNewProject = (request, response, next) => __awaiter(void 0, void 0, 
         const { projectName } = request.body;
         const newProject = new Project_1.default(projectName);
         newProject.create();
-        response.send(`New project ${projectName} created!`);
+        response.json(`New project ${projectName} created!`);
     }
     catch (error) {
         console.log(error);
@@ -39,9 +39,9 @@ exports.createNewProject = createNewProject;
 const updateProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { projectId } = request.params;
-        const { projectName, todos } = request.body;
-        Project_1.default.update(+projectId, projectName, todos);
-        response.send(`Project ${projectId} updated!`);
+        const { projectName } = request.body;
+        Project_1.default.update(+projectId, projectName);
+        response.json(`Project ${projectId} updated!`);
     }
     catch (error) {
         console.log(error);
@@ -52,7 +52,7 @@ const deleteProject = (request, response, next) => __awaiter(void 0, void 0, voi
     try {
         const { projectId } = request.params;
         Project_1.default.delete(+projectId);
-        response.send(`Project ${projectId} has been deleted.`);
+        response.json(`Project ${projectId} has been deleted.`);
     }
     catch (error) {
         console.log(error);
