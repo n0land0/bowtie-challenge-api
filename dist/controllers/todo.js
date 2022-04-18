@@ -18,10 +18,11 @@ const getAllTodosByProject = (request, response, next) => __awaiter(void 0, void
     try {
         const { projectId } = request.params;
         const todosData = yield Todo_1.default.fetchAllByProjectId(+projectId);
-        response.send(todosData);
+        response.status(200).send(todosData);
     }
     catch (error) {
         console.log(error);
+        response.status(500).json(error);
     }
 });
 exports.getAllTodosByProject = getAllTodosByProject;
@@ -30,10 +31,13 @@ const createNewTodo = (request, response, next) => __awaiter(void 0, void 0, voi
         const { projectId, todoDescription } = request.body;
         const newTodo = new Todo_1.default(todoDescription);
         newTodo.create(projectId);
-        response.json(`New todo ${todoDescription} created in project ${projectId}!`);
+        response
+            .status(200)
+            .json(`New todo ${todoDescription} created in project ${projectId}!`);
     }
     catch (error) {
         console.log(error);
+        response.status(500).json(error);
     }
 });
 exports.createNewTodo = createNewTodo;
@@ -42,10 +46,13 @@ const updateTodo = (request, response, next) => __awaiter(void 0, void 0, void 0
         const { projectId, todoId } = request.params;
         const { description, completed } = request.body;
         Todo_1.default.update(+todoId, +projectId, description, completed);
-        response.json(`Todo ${todoId} in project ${projectId} updated!`);
+        response
+            .status(200)
+            .json(`Todo ${todoId} in project ${projectId} updated!`);
     }
     catch (error) {
         console.log(error);
+        response.status(500).json(error);
     }
 });
 exports.updateTodo = updateTodo;
@@ -53,10 +60,13 @@ const deleteTodo = (request, response, next) => __awaiter(void 0, void 0, void 0
     try {
         const { todoId, projectId } = request.params;
         Todo_1.default.delete(+todoId);
-        response.json(`Todo ${todoId} in project ${projectId} has been deleted.`);
+        response
+            .status(200)
+            .json(`Todo ${todoId} in project ${projectId} has been deleted.`);
     }
     catch (error) {
         console.log(error);
+        response.status(500).json(error);
     }
 });
 exports.deleteTodo = deleteTodo;
@@ -64,10 +74,13 @@ const deleteAllTodosInProject = (request, response, next) => __awaiter(void 0, v
     try {
         const { projectId } = request.params;
         yield Todo_1.default.deleteAllByProjectId(+projectId);
-        response.json(`All todos in project ${projectId} have been deleted.`);
+        response
+            .status(200)
+            .json(`All todos in project ${projectId} have been deleted.`);
     }
     catch (error) {
         console.log(error);
+        response.status(500).json(error);
     }
 });
 exports.deleteAllTodosInProject = deleteAllTodosInProject;

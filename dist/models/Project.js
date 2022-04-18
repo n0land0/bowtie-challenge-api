@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const path_1 = require("../util/path");
 const fs_1 = require("fs");
+const path_1 = require("../util/path");
 class Project {
     constructor(projectName) {
         this.projectName = projectName;
