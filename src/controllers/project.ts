@@ -11,9 +11,10 @@ export const getAllProjects = async (
 ) => {
   try {
     const projectsData = await Project.fetchAll();
-    response.send(projectsData);
+    response.status(200).send(projectsData);
   } catch (error) {
     console.log(error);
+    response.status(500).json(error);
   }
 };
 
@@ -28,9 +29,10 @@ export const createNewProject = async (
 
     newProject.create();
 
-    response.json(`New project ${projectName} created!`);
+    response.status(200).json(`New project ${projectName} created!`);
   } catch (error) {
     console.log(error);
+    response.status(500).json(error);
   }
 };
 
@@ -45,9 +47,10 @@ export const updateProject = async (
 
     Project.update(+projectId, projectName);
 
-    response.json(`Project ${projectId} updated!`);
+    response.status(200).json(`Project ${projectId} updated!`);
   } catch (error) {
     console.log(error);
+    response.status(500).json(error);
   }
 };
 
@@ -63,8 +66,9 @@ export const deleteProject = async (
 
     Project.delete(+projectId);
 
-    response.json(`Project ${projectId} has been deleted.`);
+    response.status(200).json(`Project ${projectId} has been deleted.`);
   } catch (error) {
     console.log(error);
+    response.status(500).json(error);
   }
 };

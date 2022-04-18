@@ -10,9 +10,10 @@ export const getAllTodosByProject = async (
   try {
     const { projectId } = request.params;
     const todosData = await Todo.fetchAllByProjectId(+projectId);
-    response.send(todosData);
+    response.status(200).send(todosData);
   } catch (error) {
     console.log(error);
+    response.status(500).json(error);
   }
 };
 
@@ -27,11 +28,12 @@ export const createNewTodo = async (
 
     newTodo.create(projectId);
 
-    response.json(
-      `New todo ${todoDescription} created in project ${projectId}!`
-    );
+    response
+      .status(200)
+      .json(`New todo ${todoDescription} created in project ${projectId}!`);
   } catch (error) {
     console.log(error);
+    response.status(500).json(error);
   }
 };
 
@@ -46,9 +48,12 @@ export const updateTodo = async (
 
     Todo.update(+todoId, +projectId, description, completed);
 
-    response.json(`Todo ${todoId} in project ${projectId} updated!`);
+    response
+      .status(200)
+      .json(`Todo ${todoId} in project ${projectId} updated!`);
   } catch (error) {
     console.log(error);
+    response.status(500).json(error);
   }
 };
 
@@ -62,9 +67,12 @@ export const deleteTodo = async (
 
     Todo.delete(+todoId);
 
-    response.json(`Todo ${todoId} in project ${projectId} has been deleted.`);
+    response
+      .status(200)
+      .json(`Todo ${todoId} in project ${projectId} has been deleted.`);
   } catch (error) {
     console.log(error);
+    response.status(500).json(error);
   }
 };
 
@@ -78,8 +86,11 @@ export const deleteAllTodosInProject = async (
 
     await Todo.deleteAllByProjectId(+projectId);
 
-    response.json(`All todos in project ${projectId} have been deleted.`);
+    response
+      .status(200)
+      .json(`All todos in project ${projectId} have been deleted.`);
   } catch (error) {
     console.log(error);
+    response.status(500).json(error);
   }
 };
