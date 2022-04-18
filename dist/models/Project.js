@@ -21,7 +21,8 @@ class Project {
             let newId = 1;
             if (projectData.length) {
                 const { id } = projectData[projectData.length - 1];
-                newId = id + 1;
+                if (id)
+                    newId = id + 1;
             }
             this.id = newId;
             projectData[projectData.length] = this;

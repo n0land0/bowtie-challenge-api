@@ -23,7 +23,8 @@ class Todo {
             let newId = 1;
             if (allTodos.length) {
                 const { id } = allTodos[allTodos.length - 1];
-                newId = id + 1;
+                if (id)
+                    newId = id + 1;
             }
             this.id = newId;
             allTodos[allTodos.length] = this;
