@@ -67,3 +67,19 @@ export const deleteTodo = async (
     console.log(error);
   }
 };
+
+export const deleteAllTodosInProject = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const { projectId } = request.params;
+
+    await Todo.deleteAllByProjectId(+projectId);
+
+    response.json(`All todos in project ${projectId} have been deleted.`);
+  } catch (error) {
+    console.log(error);
+  }
+};
