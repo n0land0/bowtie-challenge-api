@@ -26,7 +26,7 @@ export const createNewProject = async (
 
     newProject.create();
 
-    response.send(`New project ${projectName} created!`);
+    response.json(`New project ${projectName} created!`);
   } catch (error) {
     console.log(error);
   }
@@ -39,11 +39,11 @@ export const updateProject = async (
 ) => {
   try {
     const { projectId } = request.params;
-    const { projectName, todos } = request.body;
+    const { projectName } = request.body;
 
-    Project.update(+projectId, projectName, todos);
+    Project.update(+projectId, projectName);
 
-    response.send(`Project ${projectId} updated!`);
+    response.json(`Project ${projectId} updated!`);
   } catch (error) {
     console.log(error);
   }
@@ -59,7 +59,7 @@ export const deleteProject = async (
 
     Project.delete(+projectId);
 
-    response.send(`Project ${projectId} has been deleted.`);
+    response.json(`Project ${projectId} has been deleted.`);
   } catch (error) {
     console.log(error);
   }

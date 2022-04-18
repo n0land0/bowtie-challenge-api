@@ -27,7 +27,7 @@ export const createNewTodo = async (
 
     newTodo.create(projectId);
 
-    response.send(
+    response.json(
       `New todo ${todoDescription} created in project ${projectId}!`
     );
   } catch (error) {
@@ -46,7 +46,7 @@ export const updateTodo = async (
 
     Todo.update(+todoId, +projectId, description, completed);
 
-    response.send(`Todo ${todoId} in project ${projectId} updated!`);
+    response.json(`Todo ${todoId} in project ${projectId} updated!`);
   } catch (error) {
     console.log(error);
   }
@@ -62,7 +62,7 @@ export const deleteTodo = async (
 
     Todo.delete(+todoId);
 
-    response.send(`Todo ${todoId} in project ${projectId} has been deleted.`);
+    response.json(`Todo ${todoId} in project ${projectId} has been deleted.`);
   } catch (error) {
     console.log(error);
   }
