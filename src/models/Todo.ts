@@ -60,6 +60,15 @@ class Todo implements ITodo {
     return fs.writeFile(dataTodosFile, JSON.stringify(todosData));
   }
 
+  static async deleteAllByProjectId(projectId: number) {
+    const todosData = await Todo.fetchAll();
+    const filteredTodosData = todosData.filter(
+      (todo) => todo.projectId !== projectId
+    );
+
+    return fs.writeFile(dataTodosFile, JSON.stringify(filteredTodosData));
+  }
+
   static async fetchAllByProjectId(projectId: number): Promise<ITodo[]> {
     return fs
       .readFile(dataTodosFile)
