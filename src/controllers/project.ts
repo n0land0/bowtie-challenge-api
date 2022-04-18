@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
 import Project from '../models/Project';
+import Todo from '../models/Todo';
+import { deleteAllTodosInProject } from './todo';
 
 export const getAllProjects = async (
   request: Request,
@@ -56,6 +58,8 @@ export const deleteProject = async (
 ) => {
   try {
     const { projectId } = request.params;
+
+    await Todo.deleteAllByProjectId(+projectId);
 
     Project.delete(+projectId);
 
