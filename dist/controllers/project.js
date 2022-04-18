@@ -14,13 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProject = exports.updateProject = exports.createNewProject = exports.getAllProjects = void 0;
 const Project_1 = __importDefault(require("../models/Project"));
+const Todo_1 = __importDefault(require("../models/Todo"));
 const getAllProjects = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const projectsData = yield Project_1.default.fetchAll();
-        response.send(projectsData);
+        response.status(200).send(projectsData);
     }
     catch (error) {
         console.log(error);
+        response.status(500).json(error);
     }
 });
 exports.getAllProjects = getAllProjects;
@@ -29,33 +31,37 @@ const createNewProject = (request, response, next) => __awaiter(void 0, void 0, 
         const { projectName } = request.body;
         const newProject = new Project_1.default(projectName);
         newProject.create();
-        response.send(`New project ${projectName} created!`);
+        response.status(200).json(`New project ${projectName} created!`);
     }
     catch (error) {
         console.log(error);
+        response.status(500).json(error);
     }
 });
 exports.createNewProject = createNewProject;
 const updateProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { projectId } = request.params;
-        const { projectName, todos } = request.body;
-        Project_1.default.update(+projectId, projectName, todos);
-        response.send(`Project ${projectId} updated!`);
+        const { projectName } = request.body;
+        Project_1.default.update(+projectId, projectName);
+        response.status(200).json(`Project ${projectId} updated!`);
     }
     catch (error) {
         console.log(error);
+        response.status(500).json(error);
     }
 });
 exports.updateProject = updateProject;
 const deleteProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { projectId } = request.params;
+        yield Todo_1.default.deleteAllByProjectId(+projectId);
         Project_1.default.delete(+projectId);
-        response.send(`Project ${projectId} has been deleted.`);
+        response.status(200).json(`Project ${projectId} has been deleted.`);
     }
     catch (error) {
         console.log(error);
+        response.status(500).json(error);
     }
 });
 exports.deleteProject = deleteProject;

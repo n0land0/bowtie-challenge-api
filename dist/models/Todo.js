@@ -23,7 +23,8 @@ class Todo {
             let newId = 1;
             if (allTodos.length) {
                 const { id } = allTodos[allTodos.length - 1];
-                newId = id + 1;
+                if (id)
+                    newId = id + 1;
             }
             this.id = newId;
             allTodos[allTodos.length] = this;
@@ -50,6 +51,13 @@ class Todo {
             const todoIndex = todosData.findIndex((todo) => todo.id === id);
             todosData.splice(todoIndex, 1);
             return fs_1.promises.writeFile(path_1.dataTodosFile, JSON.stringify(todosData));
+        });
+    }
+    static deleteAllByProjectId(projectId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const todosData = yield Todo.fetchAll();
+            const filteredTodosData = todosData.filter((todo) => todo.projectId !== projectId);
+            return fs_1.promises.writeFile(path_1.dataTodosFile, JSON.stringify(filteredTodosData));
         });
     }
     static fetchAllByProjectId(projectId) {

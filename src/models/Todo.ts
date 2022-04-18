@@ -22,7 +22,7 @@ class Todo implements ITodo {
     let newId = 1;
     if (allTodos.length) {
       const { id } = allTodos[allTodos.length - 1];
-      newId = id + 1;
+      if (id) newId = id + 1;
     }
     this.id = newId;
     allTodos[allTodos.length] = this;
@@ -58,6 +58,15 @@ class Todo implements ITodo {
     todosData.splice(todoIndex, 1);
 
     return fs.writeFile(dataTodosFile, JSON.stringify(todosData));
+  }
+
+  static async deleteAllByProjectId(projectId: number) {
+    const todosData = await Todo.fetchAll();
+    const filteredTodosData = todosData.filter(
+      (todo) => todo.projectId !== projectId
+    );
+
+    return fs.writeFile(dataTodosFile, JSON.stringify(filteredTodosData));
   }
 
   static async fetchAllByProjectId(projectId: number): Promise<ITodo[]> {
