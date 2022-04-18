@@ -52,7 +52,6 @@ exports.updateProject = updateProject;
 const deleteProject = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { projectId } = request.params;
-        // await deleteAllTodosInProject(+projectId);
         yield Todo_1.default.deleteAllByProjectId(+projectId);
         Project_1.default.delete(+projectId);
         response.json(`Project ${projectId} has been deleted.`);
